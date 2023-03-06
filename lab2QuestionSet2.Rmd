@@ -1,0 +1,46 @@
+---
+title: "Question set II"
+author: "Hunter Goehring"
+date: "2023-03-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+```
+```{r}
+library(ggplot2)
+```
+
+
+Question set 2:  
+1. For each of the questions below provide at least one graphic as a basis for your answer.  
+
+  1. How are ratings distributed? Draw a histogram of ratings and describe it. Don't forget to mention outliers, if there are any.  
+```{r}
+ggplot(data = choco, aes(x = Rating)) + geom_histogram()
+```
+      
+      Ratings are distributed across a scale from 1 being Unpleasant, to 5 being Elite. The majority of ratings fall between 2 (Disappointing) and 4 (Premium). There are a couple outliers that recieved scores close to 1 and an outlier near 5.
+    
+  2. Do ratings depend on the cocoa percentage of a chocolate bar?  
+```{r}
+ggplot(data = choco, aes(x = Rating, y = Cocoa.Pct)) + geom_jitter()
+```
+      
+      The data doesn't appear to show any dependencies between ratings and the cocoa percentage. There are outliers with similar percentages that have completely opposite ratings.  
+    
+  3. How do ratings compare across different company locations? Focus on the three locations with the most ratings.  
+```{r}
+loc = dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+ggplot(loc, aes(x=Company.Location, y = Rating)) + geom_boxplot()
+```
+    
+    The average ratings from each location are all fairly similar to each other. Canada has a higher upper quartile than the other two locations, whereas U.S.A. has the lowest lower quartile. France has two low outliers that go along with the U.S.A.'s one.
+  
